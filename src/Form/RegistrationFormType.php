@@ -2,21 +2,24 @@
 
 namespace App\Form;
 
+use DateTime;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\LessThan;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -54,6 +57,9 @@ class RegistrationFormType extends AbstractType
                     ],
                     'attr' => [
                         'placeholder' => 'Your Email'
+                    ],
+                    'constraints' => [
+                        new Email(['message' => "Not a valid email"])
                     ]
                 ],
                 
@@ -69,7 +75,7 @@ class RegistrationFormType extends AbstractType
                 ],
                 
                 // Contraintes
-                // 'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'The email fields must match.',
             ])
 
             // Password + Confirmation
@@ -84,7 +90,19 @@ class RegistrationFormType extends AbstractType
                     ],
                     'attr' => [
                         'placeholder' => 'Your new password'
-                    ]
+                    ],
+
+                    'constraints' => [
+                        new NotBlank([
+                            'message' => 'Please enter a password',
+                        ]),
+                        new Length([
+                            'min' => 6,
+                            'minMessage' => 'Your password should be at least {{ limit }} characters',
+                            // max length allowed by Symfony for security reasons
+                            'max' => 4096,
+                        ]),
+                    ],
                 ],
                 'second_options' => [
                     'label' => 'Your new password confirmation',
@@ -93,21 +111,11 @@ class RegistrationFormType extends AbstractType
                     ],
                     'attr' => [
                         'placeholder' => 'Your new password confirmation'
-                    ]
+                    ],
                 ],
 
                 // Contraintes
-                //     'constraints' => [
-                //         new NotBlank([
-                //             'message' => 'Please enter a password',
-                //         ]),
-                //         new Length([
-                //             'min' => 6,
-                //             'minMessage' => 'Your password should be at least {{ limit }} characters',
-                //             // max length allowed by Symfony for security reasons
-                //             'max' => 4096,
-                //         ]),
-                //     ],
+                'invalid_message' => 'The password fields must match.',
             ])
 
             // Firstname
@@ -148,7 +156,20 @@ class RegistrationFormType extends AbstractType
                 // Modifie la liste des années
                 'years' => range($year, $min_year),
 
-                'constraints' => [],
+
+                // 'placeholder' => [
+                //     'year' => "Select year",
+                //     'month' => "Select month",
+                //     'day' => "Select day",
+                // ],
+
+                'constraints' => [
+                    new NotBlank(['message' => "Selection obligatoire"]),
+                    new LessThan([
+                        'value' => new DateTime,
+                        'message' => "Vous n'etes pas encore né"
+                    ])
+                ],
             ])
 
             // Gender
