@@ -59,8 +59,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 43)]
     private ?string $screenname = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
-    private ?\DateTimeImmutable $birthday = null;
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $birthday = null;
 
     // NOTE: convertion en énumération
     // #[ORM\Column(length: 255)]
