@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Precious{% endblock %}
+
+{% block body %}
+    <h1>Create new Precious</h1>
+
+    {{ include('precious/_form.html.twig') }}
+
+    <a href="{{ path('app_precious_index') }}">back to list</a>
+{% endblock %}

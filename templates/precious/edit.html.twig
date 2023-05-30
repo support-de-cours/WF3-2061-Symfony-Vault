@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Precious{% endblock %}
+
+{% block body %}
+    <h1>Edit Precious</h1>
+
+    {{ include('precious/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_precious_index') }}">back to list</a>
+
+    {{ include('precious/_delete_form.html.twig') }}
+{% endblock %}
