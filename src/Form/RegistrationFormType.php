@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
@@ -11,8 +12,11 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -36,12 +40,24 @@ class RegistrationFormType extends AbstractType
                 
                 // Options du premier champ
                 'first_options'  => [
-                    'label' => 'Your Email'
+                    'label' => 'Your Email',
+                    'label_attr' => [
+                        'hidden' => "hidden"
+                    ],
+                    'attr' => [
+                        'placeholder' => 'Your Email'
+                    ]
                 ],
                 
                 // Option du champ de répétition
                 'second_options' => [
-                    'label' => 'Email confirmation'
+                    'label' => 'Email confirmation',
+                    'label_attr' => [
+                        'hidden' => "hidden"
+                    ],
+                    'attr' => [
+                        'placeholder' => 'Email confirmation'
+                    ]
                 ],
                 
                 // Contraintes
@@ -54,10 +70,22 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
 
                 'first_options'  => [
-                    'label' => 'Your new password'
+                    'label' => 'Your new password',
+                    'label_attr' => [
+                        'hidden' => "hidden"
+                    ],
+                    'attr' => [
+                        'placeholder' => 'Your new password'
+                    ]
                 ],
                 'second_options' => [
-                    'label' => 'Your new password confirmation'
+                    'label' => 'Your new password confirmation',
+                    'label_attr' => [
+                        'hidden' => "hidden"
+                    ],
+                    'attr' => [
+                        'placeholder' => 'Your new password confirmation'
+                    ]
                 ],
 
                 // Contraintes
@@ -75,14 +103,63 @@ class RegistrationFormType extends AbstractType
             ])
 
             // Firstname
+            ->add('firstname', TextType::class, [
+                'label' => "Your firstname",
+                'required' => true,
+                'attr' => [
+                    'placeholder' => "Your firstname"
+                ],
+                'constraints' => [],
+            ])
 
             // Lastname
+            ->add('lastname', TextType::class, [
+                'label' => "Your lastname",
+                'required' => true,
+                'attr' => [
+                    'placeholder' => "Your lastname"
+                ],
+                'constraints' => [],
+            ])
 
             // Birshday
+            ->add('birthday', BirthdayType::class, [
+                'label' => "Your birthday",
+                'required' => true,
+                'attr' => [
+                    'placeholder' => "Your birthday"
+                ],
+                'constraints' => [],
+            ])
 
             // Gender
+            ->add('gender', ChoiceType::class, [
+                'label' => "Select your gender",
+                'required' => true,
+                // 'attr' => [
+                //     'placeholder' => "Select your gender"
+                // ],
+                'placeholder' => "Select your gender",
+                'choices' => [
+                    'Male' => "M",
+                    'Female' => "F",
+                    'Neither' => "N",
+                ],
+
+                'constraints' => [],
+            ])
 
             // Country
+            ->add('country', CountryType::class, [
+                'label' => "Select your country",
+                'required' => true,
+                // 'attr' => [
+                //     'placeholder' => "Your country"
+                // ],
+                'placeholder' => "Select your country",
+                'data' => null,
+                'constraints' => [],
+            ])
 
 
             ->add('agreeTerms', CheckboxType::class, [
