@@ -29,6 +29,9 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // dd( $form->getData() );
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
@@ -36,6 +39,8 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            // $user->setRoles(["ROLE_ADMIN"]);
 
             $entityManager->persist($user);
             $entityManager->flush();

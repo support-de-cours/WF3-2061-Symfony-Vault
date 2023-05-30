@@ -28,6 +28,34 @@
                         <li>
                             <a href="{{ path('app_precious_index') }}">Mes précieux !</a>
                         </li>
+
+
+
+
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+
+                        {# Utilisateur identifié #}
+                        <li>
+                            <a href="{{ path('app_logout') }}">Logout</a>
+                        </li>
+                        <li>
+                            <a href="#">{{ app.user.screenname }}</a>
+                        </li>
+
+                        {# Utilisateur anonyme #}
+                        {% else %}
+                        <li>
+                            <a href="{{ path('app_register') }}">Register</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_login') }}">Login</a>
+                        </li>
+
+                        {% endif %}
+
+
+
+
                     </ul>
                 </nav>
             </header>

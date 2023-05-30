@@ -13,6 +13,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\HasLifecycleCallbacks()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     const GENDERS = [
@@ -216,6 +217,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     //     $this->fullname = $fullname;
     //     return $this;
     // }
+    #[ORM\PrePersist]
     public function setFullname(): self
     {
         // Concaténation de "firstname lastname" => "John DOE"
@@ -237,12 +239,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     //     $this->screenname = $screenname;
     //     return $this;
     // }
+
+    #[ORM\PrePersist]
     public function setScreenname(): self
     {
         // Concaténation de "firstname lastname" => John D.
         $this->screenname = $this->firstname;               // John
         $this->screenname.= " ";                            // espace
-        $this->screenname = substr($this->lastname, 0, 1);  // D
+        $this->screenname.= substr($this->lastname, 0, 1);  // D
         $this->screenname.= ".";                            // .
 
         return $this;
@@ -314,6 +318,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     //     $this->registerAt = $registerAt;
     //     return $this;
     // }
+    #[ORM\PrePersist]
     public function setRegisterAt(): self
     {
         $this->registerAt = new \DateTimeImmutable;
@@ -335,6 +340,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // }
 
     // xxxx->setLastLoginAt()
+    #[ORM\PreUpdate]
     public function setLastLoginAt(): self
     {
         $this->lastLoginAt = new \DateTime;

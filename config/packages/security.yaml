@@ -18,6 +18,23 @@ security:
                 property: email             # Propriété "email" de la classe "User"
 
 
+    # Definitions des roles
+    role_hierarchy:
+
+        # ROLE_USER         => Simple utilisateur identifié
+        # ROLE_STAFF        => Utilisateur membre de l'equipe "Staff"
+        # ROLE_ADMIN        => Membre du Staff ayant la position d'Administrateur
+        # ROLE_DEVELOPER    => Possede tous les droits
+
+        
+        ROLE_AUTHOR: [ROLE_USER]
+        ROLE_EDITOR: [ROLE_AUTHOR]
+
+        ROLE_STAFF: [ROLE_USER]
+        ROLE_ADMIN: [ROLE_STAFF, ROLE_EDITOR]
+        ROLE_DEVELOPER: ROLE_ADMIN
+
+
 
     firewalls:
 
@@ -28,6 +45,11 @@ security:
         main:
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -41,6 +63,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
 
 

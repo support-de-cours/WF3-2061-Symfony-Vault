@@ -13,6 +13,9 @@
                 novalidate: "novalidate"
             }
         }) }}
+
+            {# Token de securité #}
+            {{ form_widget(registrationForm._token) }}
     
             {# Email row #}
             <div class="row">
