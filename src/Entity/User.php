@@ -246,12 +246,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeImmutable
+    public function getBirthday(): ?\DateTimeInterface
     {
         return $this->birthday;
     }
 
-    public function setBirthday(\DateTimeImmutable $birthday): self
+    public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
 
