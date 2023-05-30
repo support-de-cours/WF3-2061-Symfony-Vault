@@ -22,6 +22,14 @@ class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $year = date('Y');
+        $min_year = $year - 100;
+
+        $gender_choices = $options['genders'];
+
+        // Récupération de l'option "country"
+        $country = $options['country'];
+
         $builder
 
             // Email + Confirmation
@@ -129,6 +137,17 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'placeholder' => "Your birthday"
                 ],
+                'help'=> "Select your birthday",
+
+                // Modifie la liste des jours
+                // 'days' => [],
+
+                // Modifie la liste des mois
+                // 'months' => [],
+                
+                // Modifie la liste des années
+                'years' => range($year, $min_year),
+
                 'constraints' => [],
             ])
 
@@ -140,11 +159,13 @@ class RegistrationFormType extends AbstractType
                 //     'placeholder' => "Select your gender"
                 // ],
                 'placeholder' => "Select your gender",
-                'choices' => [
-                    'Male' => "M",
-                    'Female' => "F",
-                    'Neither' => "N",
-                ],
+                
+                // 'choices' => [
+                //     'Male' => "M",
+                //     'Female' => "F",
+                //     'Neither' => "N",
+                // ],
+                'choices' => array_flip($gender_choices),
 
                 'constraints' => [],
             ])
@@ -157,29 +178,35 @@ class RegistrationFormType extends AbstractType
                 //     'placeholder' => "Your country"
                 // ],
                 'placeholder' => "Select your country",
-                'data' => null,
+                'data' => $country,
                 'constraints' => [],
             ])
+        ;
 
-
-            ->add('agreeTerms', CheckboxType::class, [
+        if ($options['show_agreeterms'])
+        {
+            $builder->add('agreeTerms', CheckboxType::class, [
                 'label' => "I agree with <a href=\"#\">terms</a>",
                 'label_html' => true,
-
+    
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
-            ])
-        ;
+            ]);
+        }
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'country' => null, // Definition de l'option "country"
+            'genders' => [],
+            'show_agreeterms' => true,
         ]);
     }
 }

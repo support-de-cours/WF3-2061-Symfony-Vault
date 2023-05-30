@@ -92,7 +92,7 @@
                     <div class="mb-3">
                         {# {{ form_label(registrationForm.birthday.day) }} #}
                         {{ form_widget(registrationForm.birthday.day) }}
-                        {# {{ form_help(registrationForm.birthday.day) }} #}
+                        {{ form_help(registrationForm.birthday.day) }}
                         {# {{ form_errors(registrationForm.birthday.day) }} #}
                     </div>
 
@@ -145,13 +145,15 @@
             
             
             {# AgreeTerms #}
+            {% if registrationForm.agreeTerms is defined %}
             <div class="mb-3">
                 {{ form_label(registrationForm.agreeTerms) }}
                 {{ form_widget(registrationForm.agreeTerms) }}
                 {{ form_help(registrationForm.agreeTerms) }}
                 {{ form_errors(registrationForm.agreeTerms) }}
             </div>
-    
+            {% endif %}
+            
             <button type="submit" class="btn">Register</button>
     
         {{ form_end(registrationForm, {
