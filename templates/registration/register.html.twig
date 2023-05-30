@@ -3,15 +3,84 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
+        <h1>Register</h1>
+    
+        {{ form_start(registrationForm, {
+            attr: {
+                novalidate: "novalidate"
+            }
         }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    
+            {# Email row #}
+            <div class="row">
+                <div class="col-md-6">
+    
+                    {# Email #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.email.first) }}
+                        {{ form_widget(registrationForm.email.first) }}
+                        {{ form_help(registrationForm.email.first) }}
+                        {{ form_errors(registrationForm.email.first) }}
+                    </div>
+    
+                </div>
+                <div class="col-md-6">
+    
+                    {# Email Confirmation #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.email.second) }}
+                        {{ form_widget(registrationForm.email.second) }}
+                        {{ form_help(registrationForm.email.second) }}
+                        {{ form_errors(registrationForm.email.second) }}
+                    </div>
+    
+                </div>
+            </div>
+    
+            {# Password row #}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="row">
+                <div class="col-md-6">
+
+                    {# Password #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.plainPassword.first) }}
+                        {{ form_widget(registrationForm.plainPassword.first) }}
+                        {{ form_help(registrationForm.plainPassword.first) }}
+                        {{ form_errors(registrationForm.plainPassword.first) }}
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    {# Password Confirmation #}
+                    <div class="mb-3">
+                        {{ form_label(registrationForm.plainPassword.second) }}
+                        {{ form_widget(registrationForm.plainPassword.second) }}
+                        {{ form_help(registrationForm.plainPassword.second) }}
+                        {{ form_errors(registrationForm.plainPassword.second) }}
+                    </div>
+
+                </div>
+            </div>
+    
+    
+            <div class="mb-3">
+                {{ form_label(registrationForm.agreeTerms) }}
+                {{ form_widget(registrationForm.agreeTerms) }}
+                {{ form_help(registrationForm.agreeTerms) }}
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+    
+            <button type="submit" class="btn">Register</button>
+    
+        {{ form_end(registrationForm, {
+            render_rest: false
+        }) }}
+
+    </div>
+</div>
 {% endblock %}
