@@ -2,13 +2,13 @@
 
 - password                  Types::STRING -> 255
 - email                     Types::STRING -> 255
+- roles                     Types::JSON
 
 - firstname                 Types::STRING -> 40
 - lastname                  Types::STRING -> 40
 - fullname                  Types::STRING -> 81
 - screenname                Types::STRING -> 43
 - birthday                  Types::DATE_IMMUTABLE
-- roles                     Types::JSON
 - gender                    Types::STRING -> columnDefinition: enum('M','F','N')
 - country                   Types::STRING -> 2 -> fixed
 - connectionsCounter        Types::INTEGER
