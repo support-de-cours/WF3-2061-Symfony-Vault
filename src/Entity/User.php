@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -13,7 +14,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
 
-    
+    // ---------------------
+    //  Créé par le make:user
+    // ---------------------
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -31,6 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+
+
+    // ---------------------
+    //  Ajouté par le make:entity User
+    // ---------------------
+
     #[ORM\Column(length: 40)]
     private ?string $firstname = null;
 
@@ -46,14 +56,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $birthday = null;
 
-    #[ORM\Column(length: 255)]
+    // NOTE: convertion en énumération
+    // #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::STRING, columnDefinition: "enum('M','F','N')")]
     private ?string $gender = null;
 
-    #[ORM\Column(length: 2)]
+    // NOTE: fixer la longueur de la colonne
+    // #[ORM\Column(length: 2)]
+    #[ORM\Column(type: Types::STRING, length: 2, options: ['fixed' => true])]
     private ?string $country = null;
 
+    // NOTE: définition de la valeur par défaut
     #[ORM\Column]
-    private ?int $connectionsCounter = null;
+    // private ?int $connectionsCounter = null;
+    private int $connectionsCounter = 0;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $registerAt = null;
@@ -186,9 +202,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->fullname;
     }
 
-    public function setFullname(string $fullname): self
+    // NOTE: Automatiosation de la génération du "fullname"
+    // public function setFullname(string $fullname): self
+    // {
+    //     $this->fullname = $fullname;
+    //     return $this;
+    // }
+    public function setFullname(): self
     {
-        $this->fullname = $fullname;
+        // Concaténation de "firstname lastname" => "John DOE"
+        $this->fullname = $this->firstname;               // John
+        $this->fullname.= " ";                            // espace
+        $this->fullname.= $this->lastname;                // DOE
 
         return $this;
     }
@@ -198,9 +223,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->screenname;
     }
 
-    public function setScreenname(string $screenname): self
+    // NOTE: Automatiosation de la génération du "screenname"
+    // public function setScreenname(string $screenname): self
+    // {
+    //     $this->screenname = $screenname;
+    //     return $this;
+    // }
+    public function setScreenname(): self
     {
-        $this->screenname = $screenname;
+        // Concaténation de "firstname lastname" => John D.
+        $this->screenname = $this->firstname;               // John
+        $this->screenname.= " ";                            // espace
+        $this->screenname = substr($this->lastname, 0, 1);  // D
+        $this->screenname.= ".";                            // .
 
         return $this;
     }
@@ -246,9 +281,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->connectionsCounter;
     }
 
-    public function setConnectionsCounter(int $connectionsCounter): self
+    // NOTE: Automatisation de l'incrémentation
+    // public function setConnectionsCounter(int $connectionsCounter): self
+    // {
+    //     $this->connectionsCounter = $connectionsCounter;
+    //     return $this;
+    // }
+    public function setConnectionsCounter(): self
     {
-        $this->connectionsCounter = $connectionsCounter;
+        // Incrémentation du compteur
+        $this->connectionsCounter++;
 
         return $this;
     }
@@ -258,9 +300,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->registerAt;
     }
 
-    public function setRegisterAt(\DateTimeImmutable $registerAt): self
+    // NOTE: Automatisation de l'injection de la donnée
+    // public function setRegisterAt(\DateTimeImmutable $registerAt): self
+    // {
+    //     $this->registerAt = $registerAt;
+    //     return $this;
+    // }
+    public function setRegisterAt(): self
     {
-        $this->registerAt = $registerAt;
+        $this->registerAt = new \DateTimeImmutable;
 
         return $this;
     }
@@ -270,9 +318,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastLoginAt;
     }
 
-    public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
+    // Note: Automatisation de l'injection de la donnée
+    //xxx->setLastLoginAt(new \DateTime) 
+    // public function setLastLoginAt(?\DateTimeInterface $lastLoginAt): self
+    // {
+    //     $this->lastLoginAt = $lastLoginAt;
+    //     return $this;
+    // }
+
+    // xxxx->setLastLoginAt()
+    public function setLastLoginAt(): self
     {
-        $this->lastLoginAt = $lastLoginAt;
+        $this->lastLoginAt = new \DateTime;
 
         return $this;
     }
