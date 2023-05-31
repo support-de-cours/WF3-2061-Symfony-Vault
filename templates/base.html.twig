@@ -37,7 +37,7 @@
                             <a href="{{ path('app_logout') }}">Logout</a>
                         </li>
                         <li>
-                            <a href="#">{{ app.user.screenname }}</a>
+                            <a href="{{ path('app_profile') }}">{{ app.user.screenname }}</a>
                         </li>
 
                         {# Utilisateur anonyme #}
@@ -52,6 +52,10 @@
                         {% endif %}
 
 
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <button type="button" class="btn btn-sm btn-danger">GO TO ADMIN PAGE</button>
+                        {% endif %}
 
 
                     </ul>

@@ -4,6 +4,37 @@
 
 {% block body %}
 <div class="example-wrapper">
-    Plop: {{ html | raw }}
+    
+    
+
+    <section>
+        <h2>is_granted</h2>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td><code>is_granted('IS_AUTHENTICATED_ANONYMOUSLY')</code></td>
+                    <td>{% if is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}Yes{% else %}No{% endif %}</td>
+                    <td>is given to all users, even if you’re not logged in</td>
+                </tr> 
+                <tr>
+                    <td><code>is_granted('IS_AUTHENTICATED_REMEMBERED')</code></td>
+                    <td>{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}Yes{% else %}No{% endif %}</td>
+                    <td>is given to all users who are logged in. They may have actually logged in during the session or may be logged in because they have a “remember me” cookie</td>
+                </tr>
+                <tr>
+                    <td><code>is_granted('IS_AUTHENTICATED_FULLY')</code></td>
+                    <td>{% if is_granted('IS_AUTHENTICATED_FULLY') %}Yes{% else %}No{% endif %}</td>
+                    <td>is actually stronger. You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this;</td>
+                </tr>
+                <tr>
+                    <td><code>is_granted('ROLE_USER')</code></td>
+                    <td>{% if is_granted('ROLE_USER') %}Yes{% else %}No{% endif %}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
 </div>
 {% endblock %}
