@@ -102,7 +102,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
-
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -340,7 +339,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // }
 
     // xxxx->setLastLoginAt()
-    #[ORM\PreUpdate]
+    // #[ORM\PreUpdate]
     public function setLastLoginAt(): self
     {
         $this->lastLoginAt = new \DateTime;

@@ -49,3 +49,19 @@
 
 
 # Admin
+
+
+
+
+
+
+bin/console make:entity Precious
+
+Creation de l'entité User + Ajout du provider "app_user_provider" dans le fichier "security.yaml
+bin/console make:user
+
+Creation du controller RegistrationController + RegistrationFormType + Les vues
+bin/console make:registration-form
+
+Creation du formulaire + processus d'identification
+bin/console make:auth
